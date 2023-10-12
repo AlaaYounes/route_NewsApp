@@ -1,0 +1,16 @@
+{
+  "app_title": "News App",
+  "pick_sen": "اختر مجلتك المفضلة",
+  "categories": "المجلات",
+  "settings": "الإعدادات",
+  "language": "اللغة",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+  "sports": "رياضة",
+  "general": "عامة",
+  "health": "صحة",
+  "business": "مال و أعمال",
+  "technology": "تكنولوجيا",
+  "science": "علوم",
+  "entertainment": "ترفيه"
+}
