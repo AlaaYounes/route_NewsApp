@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
               visible: selectedCategory != null ? true : false,
               child: IconButton(
                 onPressed: () {
-                  Navigator.push(context,
+                  Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => SearchScreen()));
                 },
                 icon: Icon(Icons.search),

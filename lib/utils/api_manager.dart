@@ -34,18 +34,41 @@ class ApiManager {
     }
   }
 
-  static Future<NewsResponse> getNewsBySourceId(String sourceId) async {
+  static Future<NewsResponse> getNewsBySourceId(
+      String sourceId, int page, int pageSize) async {
     Uri url = Uri.https(
       baseUrl,
       newsApi,
       {
         'apiKey': '33eacd736a304aac849338932f26826a',
         'sources': sourceId,
+        // 'q': searchKey
+        // 'page': page,
+        // 'pageSize': pageSize
       },
     );
     try {
       var response = await http.get(url);
       var bodyString = response.body;
+      var json = jsonDecode(bodyString);
+      return NewsResponse.fromJson(json);
+    } catch (e) {
+      print(e.toString());
+      throw e;
+    }
+  }
+
+  static Future<NewsResponse> searchForNews(String searchKey) async {
+    Uri url = Uri.https(
+      baseUrl,
+      newsApi,
+      {
+        'searchIn': searchKey,
+      },
+    );
+    try {
+      var response = await http.get(url);
+      String bodyString = response.body;
       var json = jsonDecode(bodyString);
       return NewsResponse.fromJson(json);
     } catch (e) {
