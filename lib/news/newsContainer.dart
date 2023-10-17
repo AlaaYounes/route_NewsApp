@@ -18,29 +18,31 @@ class NewsContainer extends StatefulWidget {
 }
 
 class _NewsContainerState extends State<NewsContainer> {
-  static const pageSize = 100;
-  var pageKey = 1;
+  static const pageSize = 20;
+  List<News> newsList = [];
+  var pageKey = 0;
   final PagingController<int, News> pagingController =
-      PagingController(firstPageKey: 1);
+      PagingController(firstPageKey: 0);
 
   void initState() {
-    pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
     super.initState();
+    pagingController.addPageRequestListener((pageKey) {
+      _fetchPage();
+    });
   }
 
-  Future<void> _fetchPage(int pageKey) async {
+  Future<void> _fetchPage() async {
+    pageKey++;
+    print(pageKey);
     try {
       final newsItems = await ApiManager.getNewsBySourceId(
-          widget.source.id!, pageKey, pageSize);
-      var newsList = newsItems.articles;
-
-      final isLastPage = newsList!.length < pageSize;
+          sourceId: widget.source.id!, page: pageKey, pageSize: pageSize);
+      newsList = newsItems.articles!;
+      final isLastPage = newsList.length < pageSize;
       if (isLastPage) {
         pagingController.appendLastPage(newsList);
       } else {
-        final nextPageKey = pageKey + newsList.length;
+        final nextPageKey = pageKey;
         pagingController.appendPage(newsList, nextPageKey);
       }
     } catch (error) {
@@ -52,8 +54,7 @@ class _NewsContainerState extends State<NewsContainer> {
   Widget build(BuildContext context) {
     var configProvider = Provider.of<ConfigProvider>(context);
     return FutureBuilder<NewsResponse>(
-        future: ApiManager.getNewsBySourceId(
-            widget.source.id ?? '', pageSize, pageKey),
+        future: ApiManager.getNewsBySourceId(sourceId: widget.source.id ?? ''),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -87,45 +88,53 @@ class _NewsContainerState extends State<NewsContainer> {
               ],
             );
           }
-          var newsList = snapshot.data?.articles ?? [];
-          // return PagedListView<int, News>(
-          //   pagingController: pagingController,
-          //   builderDelegate: PagedChildBuilderDelegate<News>(
-          //     itemBuilder: (context, item, index) => Padding(
-          //       padding: const EdgeInsets.all(10.0),
-          //       child: InkWell(
-          //         child: NewsItem(news: item),
-          //         onTap: () {
-          //           Navigator.push(
-          //             context,
-          //             MaterialPageRoute(
-          //               builder: (context) => NewsDetails(news: item),
-          //             ),
-          //           );
-          //         },
-          //       ),
-          //     ),
-          //   ),
-          // );
-
-          return ListView.builder(
-            itemCount: newsList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: InkWell(
-                  child: NewsItem(news: newsList[index]),
-                  onTap: () {
-                    Navigator.push(
+          var newsList = snapshot.data!.articles ?? [];
+          return PagedListView<int, News>(
+            pagingController: pagingController,
+            builderDelegate: PagedChildBuilderDelegate<News>(
+              itemBuilder: (context, item, index) {
+                if (item.source! == widget.source) {
+                  return SizedBox();
+                }
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: InkWell(
+                    child: NewsItem(news: item),
+                    onTap: () {
+                      print(item.source!.id);
+                      print(widget.source!.id);
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                NewsDetails(news: newsList[index])));
-                  },
-                ),
-              );
-            },
+                          builder: (context) => NewsDetails(news: item),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           );
+
+          // return ListView.builder(
+          //
+          //   itemCount: newsList.length,
+          //   itemBuilder: (context, index) {
+          //     return Padding(
+          //       padding: const EdgeInsets.all(10.0),
+          //       child: InkWell(
+          //         child: NewsItem(news: newsList[index]),
+          //         onTap: () {
+          //           Navigator.push(
+          //               context,
+          //               MaterialPageRoute(
+          //                   builder: (context) =>
+          //                       NewsDetails(news: newsList[index])));
+          //         },
+          //       ),
+          //     );
+          //   },
+          // );
         });
   }
 

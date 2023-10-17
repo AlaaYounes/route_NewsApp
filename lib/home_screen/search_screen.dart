@@ -12,8 +12,9 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   @override
+  var searchController = TextEditingController();
+
   Widget build(BuildContext context) {
-    var searchController = TextEditingController();
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -28,7 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
           title: Padding(
             padding: const EdgeInsets.all(12),
             child: TextFormField(
-              controller: searchController = TextEditingController(),
+              controller: searchController,
               decoration: InputDecoration(
                 fillColor: MyTheme.whiteColor,
                 filled: true,
@@ -44,7 +45,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     borderSide: BorderSide(color: Colors.white)),
                 suffixIcon: IconButton(
                   onPressed: () {
-                    ApiManager.searchForNews(searchController.text);
+                    ApiManager.getNewsBySourceId(
+                        searchKey: searchController.text);
                     setState(() {});
                   },
                   icon: Icon(
@@ -53,7 +55,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
                 prefixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    searchController.text = '';
+                  },
                   icon: Icon(
                     Icons.close,
                     color: MyTheme.primaryColor,
@@ -64,7 +68,8 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         body: FutureBuilder<NewsResponse>(
-          future: ApiManager.searchForNews(searchController.text),
+          future:
+              ApiManager.getNewsBySourceId(searchKey: searchController.text),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(

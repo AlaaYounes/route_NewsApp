@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:route_news_app/models/NewsResponse.dart';
-import 'package:route_news_app/news/view_full_article.dart';
 import 'package:route_news_app/utils/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsDetails extends StatelessWidget {
   static String routeName = 'News-details';
@@ -72,11 +72,12 @@ class NewsDetails extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ViewArticle(url: news.url ?? '')));
+                  viewArticle(news.url ?? '');
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) =>
+                  //             ViewArticle(url: news.url ?? '')));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -95,5 +96,12 @@ class NewsDetails extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> viewArticle(String link) async {
+    final Uri url = Uri.parse(link);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
