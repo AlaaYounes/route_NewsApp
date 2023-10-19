@@ -17,6 +17,9 @@ class _TabContainerState extends State<TabContainer> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.sourcesList.isEmpty) {
+      return SizedBox();
+    }
     return DefaultTabController(
       length: widget.sourcesList.length,
       child: Column(
@@ -30,11 +33,11 @@ class _TabContainerState extends State<TabContainer> {
             indicatorColor: Colors.transparent,
             tabs: widget.sourcesList
                 .map((source) => TabItem(
-                    source: source,
-                    isSelected:
-                        selectedIndex == widget.sourcesList.indexOf(source)
-                            ? true
-                            : false))
+                source: source,
+                isSelected:
+                selectedIndex == widget.sourcesList.indexOf(source)
+                    ? true
+                    : false))
                 .toList(),
           ),
           Expanded(

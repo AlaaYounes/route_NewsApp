@@ -31,15 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: Text(title!),
           actions: [
-            Visibility(
-              visible: selectedCategory != null ? true : false,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchScreen()));
-                },
-                icon: Icon(Icons.search),
-              ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchScreen()));
+              },
+              icon: Icon(Icons.search),
             ),
           ],
         ),
