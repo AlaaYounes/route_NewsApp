@@ -35,18 +35,17 @@ class ApiManager {
     }
   }
 
-  static Future<NewsResponse> getNewsBySourceId(
-      {String sourceId = '',
-      int? page,
-      int pageSize = 20,
-      String? searchKey}) async {
+  static Future<NewsResponse> getNewsBySourceId({
+    String sourceId = '',
+    int? page,
+    int pageSize = 20,
+  }) async {
     Uri url = Uri.https(
       baseUrl,
       newsApi,
       {
         'apiKey': '9eb4b145df4b4e2da1d7d615c360ac21',
         'sources': sourceId,
-        'q': searchKey,
         'page': '$page',
         'pageSize': '$pageSize'
       },
@@ -62,23 +61,24 @@ class ApiManager {
     }
   }
 
-// static Future<NewsResponse> searchForNews(String searchKey) async {
-//   Uri url = Uri.https(
-//     baseUrl,
-//     newsApi,
-//     {
-//       'searchIn': searchKey,
-//     },
-//   );
-//   try {
-//     var response = await http.get(url);
-//     String bodyString = response.body;
-//     var json = jsonDecode(bodyString);
-//     return NewsResponse.fromJson(json);
-//   } catch (e) {
-//     throw e;
-//   }
-// }
+  static Future<NewsResponse> searchForNews(String searchKey) async {
+    Uri url = Uri.https(
+      baseUrl,
+      newsApi,
+      {
+        'apiKey': '9eb4b145df4b4e2da1d7d615c360ac21',
+        'q': searchKey,
+      },
+    );
+    try {
+      var response = await http.get(url);
+      String bodyString = response.body;
+      var json = jsonDecode(bodyString);
+      return NewsResponse.fromJson(json);
+    } catch (e) {
+      throw e;
+    }
+  }
 }
 
 /// Convert Object => Json called (Serialization)
