@@ -4,6 +4,7 @@ import 'package:route_news_app/models/SourceResponse.dart';
 import 'package:route_news_app/news/cubit/news_states.dart';
 import 'package:route_news_app/news/cubit/news_view_model.dart';
 import 'package:route_news_app/news/newsContainer.dart';
+import 'package:route_news_app/repository/news/repository/news-repository-impl.dart';
 import 'package:route_news_app/tabs/tabItem.dart';
 
 class TabContainer extends StatefulWidget {
@@ -17,7 +18,13 @@ class TabContainer extends StatefulWidget {
 
 class _TabContainerState extends State<TabContainer> {
   int selectedIndex = 0;
-  NewsViewModel viewModel = NewsViewModel();
+  NewsViewModel viewModel = NewsViewModel(injectNewsRepositoryContract());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

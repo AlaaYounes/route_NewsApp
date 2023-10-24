@@ -2,6 +2,8 @@ import '../../models/NewsResponse.dart';
 
 abstract class NewsStates {}
 
+class NewsInitialState extends NewsStates {}
+
 class NewsLoadingState extends NewsStates {}
 
 class NewsErrorState extends NewsStates {

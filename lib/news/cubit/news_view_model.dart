@@ -1,14 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:route_news_app/news/cubit/news_states.dart';
-import 'package:route_news_app/utils/api_manager.dart';
+import 'package:route_news_app/repository/news/repository/news-repository-contract.dart';
 
 class NewsViewModel extends Cubit<NewsStates> {
-  NewsViewModel() : super(NewsLoadingState());
+  NewsRepositoryContract repositoryContract;
+
+  NewsViewModel(this.repositoryContract) : super(NewsLoadingState());
   int selectedIndex = 0;
 
-  getNews({String? sourceId, String? searchKey}) async {
+  getNews({String? sourceId}) async {
     try {
-      var response = await ApiManager.getNewsBySourceId(sourceId: sourceId!);
+      emit(NewsLoadingState());
+      var response = await repositoryContract.getNews(sourceId!);
       if (response.status == 'error') {
         emit(NewsErrorState(errorMessage: response.message));
       } else {
@@ -21,7 +24,8 @@ class NewsViewModel extends Cubit<NewsStates> {
 
   searchForNews(String searchKey) async {
     try {
-      var response = await ApiManager.searchForNews(searchKey);
+      emit(NewsInitialState());
+      var response = await repositoryContract.searchForNews(searchKey);
       if (response.status == 'error') {
         emit(NewsErrorState(errorMessage: response.message));
       } else {

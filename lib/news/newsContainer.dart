@@ -8,7 +8,7 @@ import 'package:route_news_app/news/cubit/news_states.dart';
 import 'package:route_news_app/news/cubit/news_view_model.dart';
 import 'package:route_news_app/news/news_details.dart';
 import 'package:route_news_app/news/news_item.dart';
-import 'package:route_news_app/utils/api_manager.dart';
+import 'package:route_news_app/repository/news/repository/news-repository-impl.dart';
 import 'package:route_news_app/utils/config_provider.dart';
 import 'package:route_news_app/utils/theme.dart';
 
@@ -22,7 +22,7 @@ class NewsContainer extends StatefulWidget {
 }
 
 class _NewsContainerState extends State<NewsContainer> {
-  NewsViewModel viewModel = NewsViewModel();
+  NewsViewModel viewModel = NewsViewModel(injectNewsRepositoryContract());
   static const pageSize = 20;
   var pageKey = 0;
   final PagingController<int, News> pagingController =
@@ -193,89 +193,89 @@ class _NewsContainerState extends State<NewsContainer> {
     //   ),
     // );
 
-    FutureBuilder<NewsResponse>(
-        future: ApiManager.getNewsBySourceId(sourceId: widget.source.id ?? ''),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-                child: CircularProgressIndicator(
-              color: Theme.of(context).primaryColor,
-            ));
-          } else if (snapshot.hasError) {
-            return Column(
-              children: [
-                Text('Something went wrong'),
-                SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('try again'),
-                ),
-              ],
-            );
-          } else if (snapshot.data?.status != 'ok') {
-            return Column(
-              children: [
-                Text('Something went wrong'),
-                SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('try again'),
-                ),
-              ],
-            );
-          }
-          var newsList = snapshot.data!.articles ?? [];
-          return PagedListView<int, News>(
-            pagingController: pagingController,
-            builderDelegate: PagedChildBuilderDelegate<News>(
-              itemBuilder: (context, item, index) {
-                if (item.source! == widget.source) {
-                  return SizedBox();
-                }
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: InkWell(
-                    child: NewsItem(news: item),
-                    onTap: () {
-                      print(item.source!.id);
-                      print(widget.source!.id);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NewsDetails(news: item),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          );
-
-          // return ListView.builder(
-          //
-          //   itemCount: newsList.length,
-          //   itemBuilder: (context, index) {
-          //     return Padding(
-          //       padding: const EdgeInsets.all(10.0),
-          //       child: InkWell(
-          //         child: NewsItem(news: newsList[index]),
-          //         onTap: () {
-          //           Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                   builder: (context) =>
-          //                       NewsDetails(news: newsList[index])));
-          //         },
-          //       ),
-          //     );
-          //   },
-          // );
-        });
+    // FutureBuilder<NewsResponse>(
+    //     future: ApiManager.getNewsBySourceId(sourceId: widget.source.id ?? ''),
+    //     builder: (context, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return Center(
+    //             child: CircularProgressIndicator(
+    //           color: Theme.of(context).primaryColor,
+    //         ));
+    //       } else if (snapshot.hasError) {
+    //         return Column(
+    //           children: [
+    //             Text('Something went wrong'),
+    //             SizedBox(
+    //               height: 10,
+    //             ),
+    //             ElevatedButton(
+    //               onPressed: () {},
+    //               child: Text('try again'),
+    //             ),
+    //           ],
+    //         );
+    //       } else if (snapshot.data?.status != 'ok') {
+    //         return Column(
+    //           children: [
+    //             Text('Something went wrong'),
+    //             SizedBox(
+    //               height: 10,
+    //             ),
+    //             ElevatedButton(
+    //               onPressed: () {},
+    //               child: Text('try again'),
+    //             ),
+    //           ],
+    //         );
+    //       }
+    //       var newsList = snapshot.data!.articles ?? [];
+    //       return PagedListView<int, News>(
+    //         pagingController: pagingController,
+    //         builderDelegate: PagedChildBuilderDelegate<News>(
+    //           itemBuilder: (context, item, index) {
+    //             if (item.source! == widget.source) {
+    //               return SizedBox();
+    //             }
+    //             return Padding(
+    //               padding: const EdgeInsets.all(10.0),
+    //               child: InkWell(
+    //                 child: NewsItem(news: item),
+    //                 onTap: () {
+    //                   print(item.source!.id);
+    //                   print(widget.source!.id);
+    //                   Navigator.push(
+    //                     context,
+    //                     MaterialPageRoute(
+    //                       builder: (context) => NewsDetails(news: item),
+    //                     ),
+    //                   );
+    //                 },
+    //               ),
+    //             );
+    //           },
+    //         ),
+    //       );
+    //
+    //       // return ListView.builder(
+    //       //
+    //       //   itemCount: newsList.length,
+    //       //   itemBuilder: (context, index) {
+    //       //     return Padding(
+    //       //       padding: const EdgeInsets.all(10.0),
+    //       //       child: InkWell(
+    //       //         child: NewsItem(news: newsList[index]),
+    //       //         onTap: () {
+    //       //           Navigator.push(
+    //       //               context,
+    //       //               MaterialPageRoute(
+    //       //                   builder: (context) =>
+    //       //                       NewsDetails(news: newsList[index])));
+    //       //         },
+    //       //       ),
+    //       //     );
+    //       //   },
+    //       // );
+    //     });
   }
 
   void dispose() {

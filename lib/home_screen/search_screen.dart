@@ -4,6 +4,7 @@ import 'package:route_news_app/news/cubit/news_states.dart';
 import 'package:route_news_app/news/cubit/news_view_model.dart';
 import 'package:route_news_app/news/news_details.dart';
 import 'package:route_news_app/news/news_item.dart';
+import 'package:route_news_app/repository/news/repository/news-repository-impl.dart';
 import 'package:route_news_app/utils/theme.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  NewsViewModel viewModel = NewsViewModel();
+  NewsViewModel viewModel = NewsViewModel(injectNewsRepositoryContract());
 
   void initState() {
     // TODO: implement initState

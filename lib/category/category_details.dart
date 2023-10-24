@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:route_news_app/category/cubit/category_states.dart';
 import 'package:route_news_app/category/cubit/category_view_model.dart';
 import 'package:route_news_app/models/category_model.dart';
+import 'package:route_news_app/repository/source/repository/source-repository-impl.dart';
 import 'package:route_news_app/tabs/tabContainer.dart';
 import 'package:route_news_app/utils/config_provider.dart';
 import 'package:route_news_app/utils/theme.dart';
@@ -20,7 +21,8 @@ class CategoryDetails extends StatefulWidget {
 }
 
 class _CategoryDetailsState extends State<CategoryDetails> {
-  CategoryViewModel viewModel = CategoryViewModel();
+  CategoryViewModel viewModel =
+      CategoryViewModel(injectSourceRepositoryContract());
 
   @override
   void initState() {

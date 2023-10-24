@@ -5,6 +5,15 @@ import 'package:route_news_app/models/NewsResponse.dart';
 import 'package:route_news_app/models/SourceResponse.dart';
 
 class ApiManager {
+  ApiManager._();
+
+  static ApiManager? _instance;
+
+  static ApiManager getInstance() {
+    _instance ??= ApiManager._();
+    return _instance!;
+  }
+
   /*
   33eacd736a304aac849338932f26826a
   https://newsapi.org/v2/top-headlines/sources?apiKey=9eb4b145df4b4e2da1d7d615c360ac21
@@ -14,8 +23,7 @@ class ApiManager {
   static String sourceApi = '/v2/top-headlines/sources';
   static String newsApi = '/v2/everything';
 
-  static Future<SourceResponse> getSources(
-      String categoryId, String language) async {
+  Future<SourceResponse> getSources(String categoryId, String language) async {
     Uri url = Uri.https(
       baseUrl,
       sourceApi,
@@ -35,7 +43,7 @@ class ApiManager {
     }
   }
 
-  static Future<NewsResponse> getNewsBySourceId({
+  Future<NewsResponse> getNewsBySourceId({
     String sourceId = '',
     int? page,
     int pageSize = 20,
@@ -61,7 +69,7 @@ class ApiManager {
     }
   }
 
-  static Future<NewsResponse> searchForNews(String searchKey) async {
+  Future<NewsResponse> searchForNews(String searchKey) async {
     Uri url = Uri.https(
       baseUrl,
       newsApi,
