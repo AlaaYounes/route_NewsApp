@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:provider/provider.dart';
 import 'package:route_news_app/domain/news/useCase/get-news-useCase.dart';
 import 'package:route_news_app/models/NewsResponse.dart';
 import 'package:route_news_app/models/SourceResponse.dart';
@@ -9,7 +8,6 @@ import 'package:route_news_app/ui/news/cubit/news_states.dart';
 import 'package:route_news_app/ui/news/cubit/news_view_model.dart';
 import 'package:route_news_app/ui/news/news_details.dart';
 import 'package:route_news_app/ui/news/news_item.dart';
-import 'package:route_news_app/utils/config_provider.dart';
 import 'package:route_news_app/utils/theme.dart';
 
 class NewsContainer extends StatefulWidget {
@@ -58,7 +56,7 @@ class _NewsContainerState extends State<NewsContainer> {
 
   @override
   Widget build(BuildContext context) {
-    var configProvider = Provider.of<ConfigProvider>(context);
+    viewModel.getNews(sourceId: widget.source.id);
     return BlocConsumer<NewsViewModel, NewsStates>(
       bloc: viewModel,
       listener: (context, state) {},
