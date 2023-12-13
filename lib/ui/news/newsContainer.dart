@@ -30,30 +30,7 @@ class _NewsContainerState extends State<NewsContainer> {
   void initState() {
     super.initState();
     viewModel.getNews(sourceId: widget.source.id);
-    // pagingController.addPageRequestListener((pageKey) {
-    //   _fetchPage();
-    // });
   }
-
-  // Future<void> _fetchPage() async {
-  //   pageKey++;
-  //   print(pageKey);
-  //   try {
-  //     final newsItems = await ApiManager.getNewsBySourceId(
-  //         sourceId: widget.source.id!, page: pageKey, pageSize: pageSize);
-  //     viewModel.state.newsList = newsItems.articles!;
-  //     final isLastPage = viewModel.newsList!.length < pageSize;
-  //     if (isLastPage) {
-  //       pagingController.appendLastPage(viewModel.newsList!);
-  //     } else {
-  //       final nextPageKey = pageKey;
-  //       pagingController.appendPage(viewModel.newsList!, nextPageKey);
-  //     }
-  //   } catch (error) {
-  //     pagingController.error = error;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     viewModel.getNews(sourceId: widget.source.id);
