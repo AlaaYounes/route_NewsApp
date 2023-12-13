@@ -73,11 +73,6 @@ class NewsDetails extends StatelessWidget {
               InkWell(
                 onTap: () {
                   viewArticle(news.url ?? '');
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             ViewArticle(url: news.url ?? '')));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,

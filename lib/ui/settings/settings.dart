@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:route_news_app/settings/languageBottomSheet.dart';
+import 'package:route_news_app/ui/settings/languageBottomSheet.dart';
 import 'package:route_news_app/utils/config_provider.dart';
 import 'package:route_news_app/utils/theme.dart';
 

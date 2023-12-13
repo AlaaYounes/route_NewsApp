@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:route_news_app/category/category_container.dart';
-import 'package:route_news_app/category/category_details.dart';
-import 'package:route_news_app/home_screen/search_screen.dart';
 import 'package:route_news_app/models/category_model.dart';
-import 'package:route_news_app/settings/settings.dart';
+import 'package:route_news_app/ui/category/category_container.dart';
+import 'package:route_news_app/ui/category/category_details.dart';
+import 'package:route_news_app/ui/home_screen/search_screen.dart';
+import 'package:route_news_app/ui/settings/settings.dart';
 import 'package:route_news_app/utils/theme.dart';
 
 class HomeScreen extends StatefulWidget {
